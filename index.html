@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santh - Portfólio de Design Gráfico</title>
+    <title>Santh - Portfólio de Design Gráfico Responsivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Configuração da fonte e corpo da página */
-        html { scroll-behavior: smooth; }
+        /* CSS Customizado para Efeitos Especiais que o Tailwind não cobre nativamente */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Montserrat', sans-serif;
             font-weight: 500;
             background-color: #1a0303; /* Fundo vermelho muito escuro */
             color: #e2e8f0;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Previne scroll horizontal */
         }
         
-        /* Impede a seleção de texto na página */
+        /* Impede a seleção de texto (opcional, mantido do original) */
         h1, h2, p, .skill-item, .contact-link, .footer-text {
             user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         /* --- EFEITOS DE LUZ DE FUNDO --- */
@@ -36,6 +35,7 @@
             height: 100%;
             pointer-events: none;
             mix-blend-mode: screen;
+            z-index: 0;
         }
         
         .glow-source {
@@ -55,7 +55,6 @@
             height: 500px;
             background: radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0) 70%);
             transform: translate(-50%, -50%);
-            z-index: 1;
             transition: width 0.3s ease, height 0.3s ease;
         }
         
@@ -64,17 +63,11 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.7;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.5;
-            }
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 0.5; }
         }
 
-        /* EFEITO DE VIDRO (GLASSMORPHISM) - CLASSE REUTILIZÁVEL */
+        /* EFEITO DE VIDRO (GLASSMORPHISM) */
         .glass-effect {
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -89,30 +82,12 @@
                 linear-gradient(to bottom, rgba(42, 15, 15, 0.6), rgba(42, 15, 15, 0.7));
         }
 
-        /* CABEÇALHO */
-        #main-header {
-            position: fixed;
-            top: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 1200px;
-            z-index: 1000;
-            border-radius: 0.75rem;
-            transition: background 0.2s ease-out;
-        }
-
-        .logo-img { height: 40px; width: auto; }
-        .font-bold { font-weight: 700; }
-
-        /* NAVEGAÇÃO DO HEADER */
-        #main-header nav a {
+        /* NAVEGAÇÃO DO HEADER - EFEITO HOVER */
+        #main-nav a {
             position: relative;
             padding-bottom: 8px;
-            transition: color 0.3s ease;
         }
-
-        #main-header nav a::after {
+        #main-nav a::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -123,282 +98,27 @@
             transform: translateX(-50%);
             transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-
-        #main-header nav a:hover { color: #ffffff !important; }
-        #main-header nav a:hover::after { width: 100%; }
+        #main-nav a:hover { color: #ffffff !important; }
+        #main-nav a:hover::after { width: 100%; }
         
-        /* CARROSSEL */
-        .carousel-container {
-            position: relative;
-            max-width: 1000px;
-            margin: 4rem auto 2rem;
-            overflow: hidden;
-        }
-
+        /* CARROSSEL - Estilos que dependem de JS para funcionar */
         .carousel-slider { display: flex; transition: transform 0.7s ease-in-out; }
-        .carousel-page { width: 100%; flex-shrink: 0; display: flex; gap: 2rem; padding: 3rem; }
-
-        .carousel-slide-wrapper { flex: 1 1 50%; min-width: 0; position: relative; }
-        .carousel-slide { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 0.75rem; position: relative; z-index: 1; transition: transform 0.3s ease; }
+        .carousel-page { width: 100%; flex-shrink: 0; }
+        .carousel-slide { transition: transform 0.3s ease; }
         .carousel-slide:hover { transform: scale(1.15); z-index: 10; }
 
-        .gemini-button {
-            position: absolute; top: 1rem; right: 1rem; z-index: 11; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem;
-            transition: all 0.3s ease; opacity: 0;
+        /* BOTÃO MENU MOBILE - Animação do ícone */
+        #mobile-menu-button span {
+            transition: all 0.3s ease-in-out;
         }
-        .carousel-slide-wrapper:hover .gemini-button { opacity: 1; }
-        .gemini-button:hover { transform: scale(1.1) rotate(15deg); background: rgba(239, 68, 68, 0.7); }
+        #main-header.menu-open #mobile-menu-button span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        #main-header.menu-open #mobile-menu-button span:nth-child(2) { opacity: 0; }
+        #main-header.menu-open #mobile-menu-button span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        .carousel-button {
-            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(42, 15, 15, 0.5);
-            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 0.75rem;
-            border-radius: 50%; cursor: pointer; z-index: 5; transition: background-color 0.3s ease; width: 44px;
-            height: 44px; display: flex; align-items: center; justify-content: center;
-        }
-        .carousel-button:hover { background-color: rgba(239, 68, 68, 0.7); }
-        .carousel-button.prev { left: 3rem; }
-        .carousel-button.next { right: 3rem; }
-        
-        .carousel-dots {
-            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.75rem;
-            background: rgba(42, 15, 15, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem; border-radius: 9999px; z-index: 11;
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); cursor: pointer; transition: background-color 0.3s ease; }
-        .dot.active { background-color: #ef4444; }
-
-        /* SEÇÃO SOBRE MIM */
-        #about-me-box {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            max-width: 1000px;
-            margin: 6rem auto;
-            padding: 2.5rem;
-            border-radius: 0.75rem;
-        }
-        .about-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            flex-shrink: 0;
-        }
-        .about-text p {
-            line-height: 1.8;
-            color: #cbd5e1;
-        }
-        
-        /* SEÇÃO SKILLS */
-        #skills-box {
-            max-width: 1000px;
-            margin: 6rem auto;
-            padding: 2.5rem;
-            border-radius: 0.75rem;
-        }
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajuste para telas menores */
-            gap: 1.5rem;
-        }
-        .skill-item {
-            background: rgba(0,0,0,0.2);
-            padding: 1.25rem 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .skill-item:hover {
-            transform: translateY(-5px);
-            background-color: rgba(239, 68, 68, 0.2);
-        }
-        .skill-name {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        .skill-level {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .skill-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.2);
-        }
-        .skill-dot.filled {
-            background-color: #ef4444;
-        }
-        
-        /* SEÇÃO CONTATOS */
-        #contact-box {
-            max-width: 1000px;
-            margin: 6rem auto;
-            padding: 2.5rem;
-            border-radius: 0.75rem;
-        }
-        .contact-links-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: rgba(0,0,0,0.2);
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(255,255,255,0.1);
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .contact-link:hover {
-            transform: translateY(-5px);
-            background-color: rgba(239, 68, 68, 0.2);
-        }
-        .contact-link svg {
-            width: 24px;
-            height: 24px;
-        }
-        
-        /* FOOTER */
-        #main-footer {
-            margin-top: 8rem;
-            padding: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
-        }
-        .footer-logo img {
-            height: 40px;
-            width: auto;
-            opacity: 0.8;
-        }
-        .footer-text {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-        .footer-socials {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .footer-socials a {
-            color: #94a3b8;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .footer-socials a:hover {
-            color: #ef4444;
-            transform: translateY(-3px);
-        }
-        
-        /* --- AJUSTES DE RESPONSIVIDADE --- */
-        #mobile-menu-button { display: none; }
-
-        @media (max-width: 768px) {
-            #main-header { padding: 1rem; }
-            #main-header nav { display: none; }
-            #main-header.menu-open nav {
-                display: flex;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(26, 3, 3, 0.9);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            #main-header.menu-open nav ul {
-                flex-direction: column;
-                gap: 2rem;
-                font-size: 1.5rem;
-            }
-            
-            #mobile-menu-button {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                cursor: pointer;
-                background: none;
-                border: none;
-                z-index: 1001;
-                padding: 10px;
-                border-radius: 8px;
-            }
-            #mobile-menu-button span {
-                display: block;
-                width: 25px;
-                height: 3px;
-                background-color: white;
-                border-radius: 3px;
-                transition: all 0.3s ease-in-out;
-            }
-            #main-header.menu-open #mobile-menu-button span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            #main-header.menu-open #mobile-menu-button span:nth-child(2) {
-                opacity: 0;
-            }
-             #main-header.menu-open #mobile-menu-button span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
-            #about-me-box { flex-direction: column; text-align: center; padding: 2rem; }
-            .footer-content { flex-direction: column; }
-        }
-
-        @media (max-width: 640px) {
-            .carousel-page {
-                padding: 2rem 1rem; /* Menos padding lateral */
-                gap: 1rem;
-            }
-            .carousel-button.prev { left: 1rem; }
-            .carousel-button.next { right: 1rem; }
-            .carousel-dots { bottom: 2.5rem; }
-        }
-
-
-        /* MODAL E OUTROS ELEMENTOS DA GEMINI API */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
-            z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.visible { opacity: 1; pointer-events: all; }
-        .modal-content {
-            background: rgba(42, 15, 15, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem;
-            padding: 2rem; width: 90%; max-width: 500px; position: relative; color: #e2e8f0;
-        }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
-        .modal-body { line-height: 1.6; }
-        .loading-spinner {
-            border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid #ef4444; border-radius: 50%;
-            width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 2rem auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
+        /* MODAL E SPINNER */
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .loading-spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="antialiased">
@@ -410,69 +130,97 @@
         <!-- Luzes fixas serão geradas aqui pelo JavaScript -->
     </div>
 
-    <header id="main-header" class="glass-effect flex items-center justify-between p-4 md:p-5 shadow-lg">
-        <div class="logo">
-            <a href="#"><img src="https://i.imgur.com/ZIRTWMq.png" alt="Logo" class="logo-img"></a>
-        </div>
-        <nav id="main-nav">
-            <ul class="flex items-center space-x-2 sm:space-x-4 md:space-x-8">
-                <li><a href="#about-section" class="text-slate-300 transition-colors duration-300 text-sm md:text-base px-3 py-2 rounded-md">Sobre Mim</a></li>
-                <li><a href="#skills-section" class="text-slate-300 transition-colors duration-300 text-sm md:text-base px-3 py-2 rounded-md">Skills</a></li>
-                <li><a href="#carousel-section" class="text-slate-300 transition-colors duration-300 text-sm md:text-base px-3 py-2 rounded-md">Projetos</a></li>
-                <li><a href="#contact-section" class="text-slate-300 transition-colors duration-300 text-sm md:text-base px-3 py-2 rounded-md">Contatos</a></li>
+    <!-- CABEÇALHO -->
+    <header id="main-header" class="glass-effect fixed top-4 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-[1000] rounded-xl shadow-lg flex items-center justify-between p-4">
+        <a href="#" class="z-20">
+            <img src="https://i.imgur.com/ZIRTWMq.png" alt="Logo Santh" class="h-10 w-auto">
+        </a>
+        
+        <!-- Navegação para Desktop -->
+        <nav id="main-nav" class="hidden md:flex items-center">
+            <ul class="flex items-center gap-x-2 lg:gap-x-6">
+                <li><a href="#about-section" class="text-slate-300 hover:text-white transition-colors duration-300 text-sm lg:text-base px-3 py-2 rounded-md">Sobre Mim</a></li>
+                <li><a href="#skills-section" class="text-slate-300 hover:text-white transition-colors duration-300 text-sm lg:text-base px-3 py-2 rounded-md">Skills</a></li>
+                <li><a href="#carousel-section" class="text-slate-300 hover:text-white transition-colors duration-300 text-sm lg:text-base px-3 py-2 rounded-md">Projetos</a></li>
+                <li><a href="#contact-section" class="text-slate-300 hover:text-white transition-colors duration-300 text-sm lg:text-base px-3 py-2 rounded-md">Contatos</a></li>
             </ul>
         </nav>
-        <button id="mobile-menu-button" class="glass-effect">
-            <span></span>
-            <span></span>
-            <span></span>
+
+        <!-- Botão do Menu Mobile -->
+        <button id="mobile-menu-button" class="md:hidden z-[1001] flex flex-col gap-[5px] cursor-pointer bg-transparent border-none p-2 rounded-md">
+            <span class="block w-6 h-0.5 bg-white rounded-full"></span>
+            <span class="block w-6 h-0.5 bg-white rounded-full"></span>
+            <span class="block w-6 h-0.5 bg-white rounded-full"></span>
         </button>
     </header>
 
-    <main class="relative z-10 pt-40 md:pt-48 px-4">
-        <section class="text-center max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold text-slate-50 mb-4 leading-tight">Olá, eu sou o Santh!</h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
-                Bem-vindo ao meu universo criativo. Explore uma seleção de projetos que transformam ideias em experiências visuais memoráveis, abrangendo identidade visual, branding e design digital.
+    <!-- Navegação Mobile (Aparece quando o menu está aberto) -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-black/80 backdrop-blur-lg z-[999] flex flex-col items-center justify-center">
+        <nav>
+            <ul class="flex flex-col items-center gap-8">
+                <li><a href="#about-section" class="text-slate-200 text-2xl font-bold">Sobre Mim</a></li>
+                <li><a href="#skills-section" class="text-slate-200 text-2xl font-bold">Skills</a></li>
+                <li><a href="#carousel-section" class="text-slate-200 text-2xl font-bold">Projetos</a></li>
+                <li><a href="#contact-section" class="text-slate-200 text-2xl font-bold">Contatos</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <main class="relative z-10 pt-32 md:pt-48 px-4 sm:px-6 lg:px-8">
+        
+        <!-- SEÇÃO HERO -->
+        <section class="text-center max-w-4xl mx-auto mb-24 md:mb-32">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-50 mb-4 leading-tight">Olá, eu sou o Santh!</h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
+                Bem-vindo ao meu universo criativo. Explore projetos que transformam ideias em experiências visuais memoráveis.
             </p>
         </section>
 
-        <!-- SEÇÃO SOBRE MIM (REORDENADA) -->
-        <section id="about-section">
-            <div id="about-me-box" class="glass-effect">
-                <img src="https://i.imgur.com/nxfQYWc.jpeg" alt="Foto de Santiago" class="about-image">
+        <!-- SEÇÃO SOBRE MIM -->
+        <section id="about-section" class="mb-24 md:mb-32">
+            <div class="glass-effect flex flex-col md:flex-row items-center text-center md:text-left gap-8 md:gap-12 max-w-4xl mx-auto p-8 rounded-xl">
+                <img src="https://i.imgur.com/nxfQYWc.jpeg" alt="Foto de Santiago" class="w-48 h-48 md:w-52 md:h-52 rounded-full object-cover border-4 border-white/20 flex-shrink-0">
                 <div class="about-text">
                     <h2 class="text-3xl font-bold mb-4">Sobre Mim</h2>
-                    <p>Olá! Sou Santiago, um designer gráfico com 8 anos de experiência na criação de soluções visuais impactantes. Especialista em mídias sociais, transformo conceitos em posts criativos e engajadores, dominando ferramentas essenciais como Photoshop, Illustrator e Premiere para dar vida a cada projeto.</p>
+                    <p class="text-slate-300 leading-relaxed">Olá! Sou Santiago, um designer gráfico com 8 anos de experiência na criação de soluções visuais impactantes. Especialista em mídias sociais, transformo conceitos em posts criativos e engajadores, dominando ferramentas como Photoshop, Illustrator e Premiere para dar vida a cada projeto.</p>
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO SKILLS (ATUALIZADA) -->
-        <section id="skills-section">
-             <div id="skills-box" class="glass-effect">
-                <h2 class="text-3xl font-bold mb-6 text-center">Skills</h2>
-                <div id="skills-grid-container" class="skills-grid">
+        <!-- SEÇÃO SKILLS -->
+        <section id="skills-section" class="mb-24 md:mb-32">
+             <div class="glass-effect max-w-4xl mx-auto p-8 rounded-xl">
+                <h2 class="text-3xl font-bold mb-8 text-center">Skills</h2>
+                <div id="skills-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     <!-- Skills serão inseridas aqui via JavaScript -->
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO CARROSSEL (REORDENADA) -->
-        <section id="carousel-section">
-            <div class="carousel-container">
-                <div class="carousel-slider"></div>
-                <button class="carousel-button prev" aria-label="Slide anterior">&#10094;</button>
-                <button class="carousel-button next" aria-label="Próximo slide">&#10095;</button>
-                <div class="carousel-dots"></div>
+        <!-- SEÇÃO CARROSSEL -->
+        <section id="carousel-section" class="mb-24 md:mb-32">
+            <div class="relative max-w-5xl mx-auto">
+                <h2 class="text-3xl font-bold mb-8 text-center">Meus Projetos</h2>
+                <div class="carousel-container overflow-hidden">
+                    <div class="carousel-slider">
+                        <!-- Páginas do carrossel serão inseridas aqui -->
+                    </div>
+                </div>
+                <!-- Controles do Carrossel -->
+                <button class="carousel-button prev absolute top-1/2 -translate-y-1/2 left-0 md:-left-8 z-20" aria-label="Slide anterior">&#10094;</button>
+                <button class="carousel-button next absolute top-1/2 -translate-y-1/2 right-0 md:-right-8 z-20" aria-label="Próximo slide">&#10095;</button>
+                <div class="carousel-dots absolute -bottom-4 left-1/2 -translate-x-1/2 z-20">
+                    <!-- Pontos de navegação serão inseridos aqui -->
+                </div>
             </div>
         </section>
 
-        <!-- SEÇÃO CONTATOS (ATUALIZADA) -->
-        <section id="contact-section">
-            <div id="contact-box" class="glass-effect">
-                <h2 class="text-3xl font-bold mb-6 text-center">Entre em Contato</h2>
-                <div class="contact-links-container">
+        <!-- SEÇÃO CONTATOS -->
+        <section id="contact-section" class="mb-24 md:mb-32">
+            <div class="glass-effect max-w-4xl mx-auto p-8 rounded-xl">
+                <h2 class="text-3xl font-bold mb-8 text-center">Entre em Contato</h2>
+                <div class="flex justify-center items-center gap-4 sm:gap-6 flex-wrap">
                     <a href="http://www.instagram.com/santhdesigner" target="_blank" class="contact-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                         <span>Instagram</span>
@@ -491,84 +239,78 @@
 
     </main>
     
-    <!-- FOOTER (ATUALIZADO) -->
-    <footer id="main-footer" class="glass-effect">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <a href="#"><img src="https://i.imgur.com/ZIRTWMq.png" alt="Logo" class="logo-img"></a>
-            </div>
-            <div class="footer-text">
+    <!-- RODAPÉ -->
+    <footer class="glass-effect mt-16 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center">
+            <a href="#">
+                <img src="https://i.imgur.com/ZIRTWMq.png" alt="Logo" class="h-10 w-auto opacity-80">
+            </a>
+            <div class="footer-text text-sm text-slate-400">
                 <p>santhiagomatos@gmail.com</p>
                 <p>Todos os direitos reservados © Santh Designer - 2025</p>
             </div>
-            <div class="footer-socials">
-                <a href="http://www.instagram.com/santhdesigner" target="_blank" aria-label="Instagram">
+            <div class="flex gap-6">
+                <a href="http://www.instagram.com/santhdesigner" target="_blank" aria-label="Instagram" class="text-slate-400 hover:text-red-500 hover:scale-110 transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
-                <a href="http://www.behance.net/santhdesigner" target="_blank" aria-label="Behance">
+                <a href="http://www.behance.net/santhdesigner" target="_blank" aria-label="Behance" class="text-slate-400 hover:text-red-500 hover:scale-110 transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"></path><path d="M10 12h10"></path><path d="m20 10 2 2-2 2"></path><path d="M6 12a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"></path></svg>
                 </a>
             </div>
         </div>
     </footer>
 
-
     <!-- Modal Universal para Gemini -->
-    <div id="gemini-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button id="modal-close-button" class="modal-close">&times;</button>
-            <h3 id="modal-title" class="modal-title"></h3>
-            <div id="modal-body" class="modal-body"></div>
+    <div id="gemini-modal" class="modal-overlay fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2000] opacity-0 pointer-events-none">
+        <div class="modal-content glass-effect p-8 rounded-xl w-[90%] max-w-lg relative text-slate-200">
+            <button id="modal-close-button" class="absolute top-4 right-4 bg-transparent border-none text-white text-2xl cursor-pointer hover:text-red-500 transition-colors">&times;</button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="modal-body" class="text-slate-300 leading-relaxed"></div>
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const header = document.getElementById('main-header');
-            const aboutBox = document.getElementById('about-me-box');
-            const skillsBox = document.getElementById('skills-box');
-            const contactBox = document.getElementById('contact-box');
-            const footer = document.getElementById('main-footer');
+            // --- SELETORES DE ELEMENTOS ---
+            const elementsToReact = document.querySelectorAll('.glass-effect');
             const cursorGlow = document.querySelector('.cursor-glow');
             const staticGlow = document.querySelector('.static-glow');
             const glowLayer = document.querySelector('.glow-layer');
+            const header = document.getElementById('main-header');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- LÓGICA DO MENU MOBILE ---
+            const toggleMenu = () => {
+                const isOpen = header.classList.toggle('menu-open');
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            };
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // --- LÓGICA DO MODAL ---
             const modal = document.getElementById('gemini-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalBody = document.getElementById('modal-body');
             const modalCloseButton = document.getElementById('modal-close-button');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mainNav = document.getElementById('main-nav');
-
-            // --- LÓGICA DO MENU MOBILE ---
-            mobileMenuButton.addEventListener('click', () => {
-                header.classList.toggle('menu-open');
-            });
-            mainNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    header.classList.remove('menu-open');
-                });
-            });
-
-            // --- LÓGICA DO MODAL ---
-            function showModal(title, content) {
+            
+            const showModal = (title, content) => {
                 modalTitle.textContent = title;
-                modalBody.innerHTML = '';
-                if (typeof content === 'string') {
-                    modalBody.innerHTML = content;
-                } else {
-                    modalBody.appendChild(content);
-                }
-                modal.classList.add('visible');
-            }
-            function hideModal() { modal.classList.remove('visible'); }
+                modalBody.innerHTML = (typeof content === 'string') ? content : '';
+                if (typeof content !== 'string') modalBody.appendChild(content);
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            };
+            const hideModal = () => modal.classList.add('opacity-0', 'pointer-events-none');
             modalCloseButton.addEventListener('click', hideModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
 
             // --- FUNÇÕES DA API GEMINI ---
             const API_KEY = ""; // Deixe em branco
             async function analyzeImageWithGemini(imageUrl) {
-                showModal('Analisando Imagem...', '<div class="loading-spinner"></div>');
+                showModal('Analisando Imagem...', '<div class="loading-spinner border-4 border-white/30 border-t-red-500 rounded-full w-10 h-10 mx-auto my-8"></div>');
                 try {
                     const imageResponse = await fetch(imageUrl);
                     const blob = await imageResponse.blob();
@@ -590,107 +332,61 @@
                 }
             }
 
-            // --- LÓGICA DAS LUZES E REAÇÃO DOS ELEMENTOS ---
-            const elementsToReact = [header, aboutBox, skillsBox, contactBox, footer];
-            
-            function updateCursorEffects(event) {
+            // --- LÓGICA DAS LUZES E EFEITOS ---
+            const updateCursorEffects = (event) => {
                 window.requestAnimationFrame(() => {
-                    cursorGlow.style.left = `${event.clientX}px`;
-                    cursorGlow.style.top = `${event.clientY}px`;
+                    const { clientX, clientY } = event;
+                    cursorGlow.style.left = `${clientX}px`;
+                    cursorGlow.style.top = `${clientY}px`;
+                    elementsToReact.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        el.style.setProperty('--mouse-x', `${clientX - rect.left}px`);
+                        el.style.setProperty('--mouse-y', `${clientY - rect.top}px`);
+                    });
                 });
-                elementsToReact.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    el.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`);
-                    el.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
-                });
-            }
+            };
             document.addEventListener('mousemove', updateCursorEffects);
 
             let startTime = 0;
-            const animationDuration = 30000;
-            function animateStaticGlow(timestamp) {
+            const animateStaticGlow = (timestamp) => {
                 if (!startTime) startTime = timestamp;
-                const elapsedTime = timestamp - startTime;
-                const progress = (elapsedTime / animationDuration) % 1;
-                
+                const progress = ((timestamp - startTime) / 30000) % 1;
                 const angle = progress * 2 * Math.PI;
-                const screenWidth = window.innerWidth;
-                const screenHeight = window.innerHeight;
-                
-                const radiusX = screenWidth / 2 + 100;
-                const radiusY = screenHeight / 2 + 100;
-                const centerX = screenWidth / 2;
-                const centerY = screenHeight / 2;
-
-                const x = centerX + radiusX * Math.cos(angle);
-                const y = centerY + radiusY * Math.sin(angle);
-
+                const x = window.innerWidth / 2 + (window.innerWidth / 2 + 100) * Math.cos(angle);
+                const y = window.innerHeight / 2 + (window.innerHeight / 2 + 100) * Math.sin(angle);
                 staticGlow.style.left = `${x}px`;
                 staticGlow.style.top = `${y}px`;
-
                 elementsToReact.forEach(el => {
-                     const rect = el.getBoundingClientRect();
+                    const rect = el.getBoundingClientRect();
                     el.style.setProperty('--static-glow-x', `${x - rect.left}px`);
                     el.style.setProperty('--static-glow-y', `${y - rect.top}px`);
                 });
-
                 requestAnimationFrame(animateStaticGlow);
-            }
+            };
             requestAnimationFrame(animateStaticGlow);
 
-            // Geração aleatória de luzes fixas
             for (let i = 0; i < 4; i++) {
                 const light = document.createElement('div');
                 light.className = 'glow-source fixed-light';
-                
-                const size = Math.random() * 50 + 30; // 30vh a 80vh
-                light.style.width = `${size}vh`;
-                light.style.height = `${size}vh`;
-                
+                light.style.width = `${Math.random() * 50 + 30}vh`;
+                light.style.height = light.style.width;
                 light.style.top = `${Math.random() * 100}%`;
                 light.style.left = `${Math.random() * 100}%`;
-                
-                const duration = Math.random() * 10 + 8; // 8s a 18s
-                const delay = Math.random() * 5;
-                light.style.animation = `pulse ${duration}s ease-in-out ${delay}s infinite`;
-                
+                light.style.animation = `pulse ${Math.random() * 10 + 8}s ease-in-out ${Math.random() * 5}s infinite`;
                 glowLayer.appendChild(light);
             }
 
             // --- LÓGICA DAS SKILLS ---
-            const skills = [
-                { name: 'Photoshop', level: 5 },
-                { name: 'Redes Sociais', level: 5 },
-                { name: 'Illustrator', level: 4 },
-                { name: 'Premiere', level: 4 },
-                { name: 'Editor de Vídeo', level: 4 },
-                { name: 'Web Designer', level: 4 },
-                { name: 'UI/UX Design', level: 3 },
-                { name: 'Identidade Visual', level: 3 }
-            ];
-
+            const skills = [ { name: 'Photoshop', level: 5 }, { name: 'Redes Sociais', level: 5 }, { name: 'Illustrator', level: 4 }, { name: 'Premiere', level: 4 }, { name: 'Editor de Vídeo', level: 4 }, { name: 'Web Designer', level: 4 }, { name: 'UI/UX Design', level: 3 }, { name: 'Identidade Visual', level: 3 } ];
             const skillsGrid = document.getElementById('skills-grid-container');
-            skills.forEach(skill => {
-                const item = document.createElement('div');
-                item.className = 'skill-item';
-
-                const name = document.createElement('span');
-                name.className = 'skill-name';
-                name.textContent = skill.name;
-
-                const level = document.createElement('div');
-                level.className = 'skill-level';
-                for (let i = 1; i <= 5; i++) {
-                    const dot = document.createElement('span');
-                    dot.className = 'skill-dot' + (i <= skill.level ? ' filled' : '');
-                    level.appendChild(dot);
-                }
-
-                item.appendChild(name);
-                item.appendChild(level);
-                skillsGrid.appendChild(item);
-            });
-
+            skillsGrid.innerHTML = skills.map(skill => `
+                <div class="skill-item bg-black/20 p-4 rounded-lg border border-white/10 flex justify-between items-center transition-all duration-300 hover:-translate-y-1 hover:bg-red-500/20">
+                    <span class="font-bold text-base">${skill.name}</span>
+                    <div class="flex gap-2">
+                        ${[...Array(5)].map((_, i) => `<span class="w-3 h-3 rounded-full ${i < skill.level ? 'bg-red-500' : 'bg-white/20'}"></span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
 
             // --- LÓGICA DO CARROSSEL ---
             const images = [ 'https://i.imgur.com/MAzCUDR.jpeg', 'https://i.imgur.com/gNHtePs.jpeg', 'https://i.imgur.com/3mhmj7u.jpeg', 'https://i.imgur.com/TsjR9FL.jpeg', 'https://i.imgur.com/okpYCX8.jpeg', 'https://i.imgur.com/wI0QG5P.jpeg' ];
@@ -702,45 +398,52 @@
             let slideInterval;
             let pages = [];
 
+            const createCarouselStyles = () => {
+                const styleId = 'carousel-dynamic-styles';
+                if (document.getElementById(styleId)) return;
+                const styleSheet = document.createElement("style");
+                styleSheet.id = styleId;
+                styleSheet.innerHTML = `
+                    .contact-link { display: inline-flex; align-items: center; gap: 0.75rem; background: rgba(0,0,0,0.2); padding: 0.75rem 1.5rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.1); font-weight: 700; text-decoration: none; color: #e2e8f0; transition: all 0.3s ease; }
+                    .contact-link:hover { transform: translateY(-5px); background-color: rgba(239, 68, 68, 0.2); }
+                    .carousel-button { background: rgba(42, 15, 15, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; cursor: pointer; transition: background-color 0.3s ease; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+                    .carousel-button:hover { background-color: rgba(239, 68, 68, 0.7); }
+                    .carousel-dots { background: rgba(42, 15, 15, 0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 9999px; display: flex; gap: 0.75rem; }
+                    .dot { width: 10px; height: 10px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); cursor: pointer; transition: background-color 0.3s ease; }
+                    .dot.active { background-color: #ef4444; }
+                    .gemini-button { position: absolute; top: 1rem; right: 1rem; z-index: 11; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem; transition: all 0.3s ease; opacity: 0; }
+                    .relative:hover .gemini-button { opacity: 1; }
+                    .gemini-button:hover { transform: scale(1.1) rotate(15deg); background: rgba(239, 68, 68, 0.7); }
+                `;
+                document.head.appendChild(styleSheet);
+            };
+            
             function setupCarousel() {
-                slider.innerHTML = '';
-                dotsContainer.innerHTML = '';
+                createCarouselStyles();
                 stopSlideShow();
                 
-                let itemsPerPage = 2;
-                if (window.innerWidth <= 640) {
-                    itemsPerPage = 1;
-                }
-
+                const itemsPerPage = window.innerWidth <= 768 ? 1 : 2;
                 pages = [];
                 for (let i = 0; i < images.length; i += itemsPerPage) {
                     pages.push(images.slice(i, i + itemsPerPage));
                 }
-                currentPageIndex = 0;
-                pages.forEach((pageImages, pageIndex) => {
-                    const pageDiv = document.createElement('div');
-                    pageDiv.classList.add('carousel-page');
-                    pageImages.forEach(src => {
-                        const wrapper = document.createElement('div');
-                        wrapper.className = 'carousel-slide-wrapper';
-                        const slide = document.createElement('img');
-                        slide.src = src;
-                        slide.classList.add('carousel-slide');
-                        slide.alt = `Imagem do carrossel`;
-                        const geminiBtn = document.createElement('button');
-                        geminiBtn.className = 'gemini-button';
-                        geminiBtn.innerHTML = '✨';
-                        geminiBtn.onclick = () => analyzeImageWithGemini(src);
-                        wrapper.appendChild(slide);
-                        wrapper.appendChild(geminiBtn);
-                        pageDiv.appendChild(wrapper);
-                    });
-                    slider.appendChild(pageDiv);
-                    const dot = document.createElement('div');
-                    dot.classList.add('dot');
-                    dot.dataset.index = pageIndex;
-                    dotsContainer.appendChild(dot);
-                });
+                currentPageIndex = Math.min(currentPageIndex, pages.length - 1);
+
+                slider.innerHTML = pages.map(pageImages => `
+                    <div class="carousel-page flex gap-6 p-1">
+                        ${pageImages.map(src => `
+                            <div class="relative w-full aspect-[3/4] flex-shrink-0">
+                                <img src="${src}" class="carousel-slide w-full h-full object-cover rounded-xl" alt="Imagem de projeto">
+                                <button class="gemini-button" data-src="${src}">✨</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `).join('');
+
+                dotsContainer.innerHTML = pages.map((_, pageIndex) => 
+                    `<div class="dot" data-index="${pageIndex}"></div>`
+                ).join('');
+                
                 updateCarousel();
                 startSlideShow();
             }
@@ -748,15 +451,15 @@
             function updateCarousel() {
                 if (pages.length > 0) {
                     slider.style.transform = `translateX(-${currentPageIndex * 100}%)`;
-                    const dots = document.querySelectorAll('.dot');
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    if (dots[currentPageIndex]) dots[currentPageIndex].classList.add('active');
+                    dotsContainer.querySelectorAll('.dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentPageIndex);
+                    });
                 }
             }
 
-            function goToNextPage() { currentPageIndex = (currentPageIndex + 1) % pages.length; updateCarousel(); }
-            function startSlideShow() { stopSlideShow(); slideInterval = setInterval(goToNextPage, 5000); }
-            function stopSlideShow() { clearInterval(slideInterval); }
+            const goToNextPage = () => { currentPageIndex = (currentPageIndex + 1) % pages.length; updateCarousel(); };
+            const startSlideShow = () => { stopSlideShow(); slideInterval = setInterval(goToNextPage, 5000); };
+            const stopSlideShow = () => clearInterval(slideInterval);
 
             prevButton.addEventListener('click', () => { currentPageIndex = (currentPageIndex - 1 + pages.length) % pages.length; updateCarousel(); startSlideShow(); });
             nextButton.addEventListener('click', () => { goToNextPage(); startSlideShow(); });
@@ -765,6 +468,11 @@
                     currentPageIndex = parseInt(e.target.dataset.index);
                     updateCarousel();
                     startSlideShow();
+                }
+            });
+            slider.addEventListener('click', (e) => {
+                if (e.target.matches('.gemini-button')) {
+                    analyzeImageWithGemini(e.target.dataset.src);
                 }
             });
 
